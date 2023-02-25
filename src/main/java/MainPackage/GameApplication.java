@@ -10,7 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
+import java.util.Map;
+import java.util.HashMap;
 
 public class GameApplication extends Application {
 

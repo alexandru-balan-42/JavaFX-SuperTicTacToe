@@ -106,7 +106,7 @@ public class GameApplication extends Application {
     }
 
     private boolean checkButtonInWinningPattern(String rowColumn) {
-        return (checkButtonInVerticalWinningPattern(rowColumn) || checkButtonInHorizontalWinningPattern(rowColumn));
+        return (checkButtonInVerticalWinningPattern(rowColumn) || checkButtonInHorizontalWinningPattern(rowColumn) || checkButtonInLTRDiagonalWinningPattern(rowColumn));
     }
 
     private boolean checkButtonInHorizontalWinningPattern(String rowColumn) {
@@ -196,6 +196,77 @@ public class GameApplication extends Application {
             }
         }
 
+        return false;
+    }
+
+    private boolean checkButtonInLTRDiagonalWinningPattern(String rowColumn) {
+        if (this.buttons.get(rowColumn).getText().equals(" ")) {
+            return false;
+        }
+        
+        String[] rowAndColumn = rowColumn.split(" ");
+        
+        int row = Integer.valueOf(rowAndColumn[0]);
+        int column = Integer.valueOf(rowAndColumn[1]);
+        int rowStart = 0;
+        int columnStart = 0;
+        int rowEnd = 0;
+        int columnEnd = 0;
+
+        if (row <= column) {
+            rowStart = row - 4;
+            columnStart = column - 4;
+            if (rowStart < 0) {
+                columnStart = columnStart + (-1 * rowStart);
+                rowStart = 0;
+            }
+        } else if (row > column) {
+            rowStart = row - 4;
+            columnStart = column - 4;
+            if (columnStart < 0) {
+                rowStart = rowStart + (-1 * columnStart);
+                columnStart = 0;
+            }
+        }
+
+        if (row >= column) {
+            rowEnd = row + 4;
+            columnEnd = column + 4;
+            if (rowEnd > 29) {
+                columnEnd = columnEnd - (rowEnd - 29);
+                rowEnd = 29;
+            }
+        } else if (row < column) {
+            rowEnd = row + 4;
+            columnEnd = column + 4;
+            if (columnEnd > 29) {
+                rowEnd = rowEnd - (columnEnd - 29);
+            }
+        }
+
+        int numberOfButtonsToCheck = rowEnd - rowStart;
+        ArrayList<Button> buttonsToCheck = new ArrayList<>();
+        for (int i = 0; i <= numberOfButtonsToCheck; i++) {
+            buttonsToCheck.add(this.buttons.get("" + (rowStart + i) + " " + (columnStart + i)));
+        }
+
+        for (int i = 0; i <= rowEnd - rowStart - 4; i++) {
+            List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
+            int sum = 0;
+
+            for (Button button : buttonsToCheckSublist) {
+                if (button.getText().equals("X")) {
+                    sum++;
+                } else if (button.getText().equals("O")) {
+                    sum--;
+                }
+            }
+
+            if (sum == 5 || sum == -5) {
+                return true;
+            }
+        }
+        
         return false;
     }
 

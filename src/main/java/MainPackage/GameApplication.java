@@ -106,7 +106,7 @@ public class GameApplication extends Application {
     }
 
     private boolean checkButtonInWinningPattern(String rowColumn) {
-        return checkButtonInHorizontalWinningPattern(rowColumn);
+        return (checkButtonInVerticalWinningPattern(rowColumn) || checkButtonInHorizontalWinningPattern(rowColumn));
     }
 
     private boolean checkButtonInHorizontalWinningPattern(String rowColumn) {
@@ -146,7 +146,50 @@ public class GameApplication extends Application {
                 }
             }
 
-            System.out.println(sum);
+            if (sum == 5 || sum == -5) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean checkButtonInVerticalWinningPattern(String rowColumn) {
+        if (this.buttons.get(rowColumn).getText().equals(" ")) {
+            return false;
+        }
+        
+        String[] rowAndColumn = rowColumn.split(" ");
+        
+        int row = Integer.valueOf(rowAndColumn[0]);
+        int column = Integer.valueOf(rowAndColumn[1]);
+
+        int start = row - 4;
+        if (start < 0) {
+            start = 0;
+        }
+
+        int end = row + 4;
+        if (end > 29) {
+            end = 29;
+        }
+
+        ArrayList<Button> buttonsToCheck = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            buttonsToCheck.add(this.buttons.get("" + i + " " + column));
+        }
+
+        for (int i = 0; i <= end - start - 4; i++) {
+            List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
+            int sum = 0;
+
+            for (Button button : buttonsToCheckSublist) {
+                if (button.getText().equals("X")) {
+                    sum++;
+                } else if (button.getText().equals("O")) {
+                    sum--;
+                }
+            }
 
             if (sum == 5 || sum == -5) {
                 return true;

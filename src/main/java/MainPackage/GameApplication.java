@@ -24,6 +24,7 @@ public class GameApplication extends Application {
     private Map<String, Button> buttons;
     private Label topLabel;
     private MainMenu mainMenu;
+    private boolean restart;
 
     public GameApplication() {
         this.xTurn = true;
@@ -31,6 +32,7 @@ public class GameApplication extends Application {
         this.buttons = new HashMap<>();
         this.topLabel = new Label("Turn: Player X");
         this.mainMenu = new MainMenu();
+        this.restart = false;
     }
 
     public void start(Stage stage) {
@@ -46,7 +48,7 @@ public class GameApplication extends Application {
             }
         }
 
-        this.topLabel.setStyle("-fx-font: 30 arial;");
+        this.topLabel.setFont(Font.font("Arial", 30));
         
         pane.setTop(this.topLabel);
         pane.setCenter(gameGrid);
@@ -64,6 +66,10 @@ public class GameApplication extends Application {
                 } else if (scene.getRoot().equals(mainMenuLayout)) {
                     scene.setRoot(pane);                    
                 }
+            }
+
+            if (event.getCode() == KeyCode.R) {
+                start(stage);
             }
         });
 
@@ -361,6 +367,10 @@ public class GameApplication extends Application {
         }
         
         return false;
+    }
+
+    public void restartGame(Stage stage) {
+        start(stage);
     }
 
     public static void main(String[] args) {

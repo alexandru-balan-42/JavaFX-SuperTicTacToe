@@ -3,9 +3,11 @@ package MainPackage;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -21,12 +23,14 @@ public class GameApplication extends Application {
     private boolean gameOver;
     private Map<String, Button> buttons;
     private Label topLabel;
+    private MainMenu mainMenu;
 
     public GameApplication() {
         this.xTurn = true;
         this.gameOver = false;
         this.buttons = new HashMap<>();
         this.topLabel = new Label("Turn: Player X");
+        this.mainMenu = new MainMenu();
     }
 
     public void start(Stage stage) {
@@ -50,6 +54,19 @@ public class GameApplication extends Application {
         BorderPane.setAlignment(topLabel, Pos.CENTER);
         BorderPane.setAlignment(gameGrid, Pos.CENTER);
         Scene scene = new Scene(pane);
+
+        Parent mainMenuLayout = this.mainMenu.createMenu(scene, pane);
+
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                if (scene.getRoot().equals(pane)) {
+                    scene.setRoot(mainMenuLayout);
+                } else if (scene.getRoot().equals(mainMenuLayout)) {
+                    scene.setRoot(pane);                    
+                }
+            }
+        });
+
         stage.setTitle("SuperTicTacToe");
         stage.setScene(scene);
         stage.show();

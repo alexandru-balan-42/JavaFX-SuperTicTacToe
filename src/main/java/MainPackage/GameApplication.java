@@ -169,17 +169,8 @@ public class GameApplication extends Application {
 
         for (int i = 0; i <= end - start - 4; i++) {
             List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-            int sum = 0;
 
-            for (Button button : buttonsToCheckSublist) {
-                if (button.getText().equals("X")) {
-                    sum++;
-                } else if (button.getText().equals("O")) {
-                    sum--;
-                }
-            }
-
-            if (sum == 5 || sum == -5) {
+            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
                 return true;
             }
         }
@@ -214,17 +205,8 @@ public class GameApplication extends Application {
 
         for (int i = 0; i <= end - start - 4; i++) {
             List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-            int sum = 0;
 
-            for (Button button : buttonsToCheckSublist) {
-                if (button.getText().equals("X")) {
-                    sum++;
-                } else if (button.getText().equals("O")) {
-                    sum--;
-                }
-            }
-
-            if (sum == 5 || sum == -5) {
+            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
                 return true;
             }
         }
@@ -286,17 +268,8 @@ public class GameApplication extends Application {
 
         for (int i = 0; i <= rowEnd - rowStart - 4; i++) {
             List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-            int sum = 0;
-
-            for (Button button : buttonsToCheckSublist) {
-                if (button.getText().equals("X")) {
-                    sum++;
-                } else if (button.getText().equals("O")) {
-                    sum--;
-                }
-            }
-
-            if (sum == 5 || sum == -5) {
+            
+            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
                 return true;
             }
         }
@@ -358,21 +331,30 @@ public class GameApplication extends Application {
 
         for (int i = 0; i <= rowEnd - rowStart - 4; i++) {
             List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-            int sum = 0;
-
-            for (Button button : buttonsToCheckSublist) {
-                if (button.getText().equals("X")) {
-                    sum++;
-                } else if (button.getText().equals("O")) {
-                    sum--;
-                }
-            }
-
-            if (sum == 5 || sum == -5) {
+            
+            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
                 return true;
             }
         }
         
+        return false;
+    }
+
+    private boolean checkButtonListForWinningPattern(List<Button> buttonList) {
+        int sum = 0;
+
+        for (Button button : buttonList) {
+            if (button.getText().equals("X")) {
+                sum++;
+            } else if (button.getText().equals("O")) {
+                sum--;
+            }
+        }
+
+        if (sum == 5 || sum == -5) {
+            return true;
+        }
+
         return false;
     }
 
@@ -394,12 +376,11 @@ public class GameApplication extends Application {
         } else {
             this.score[1]++;
         }
-        
+
         this.scoreLabel.setText("Player X  " + this.score[0] + ":" + this.score[1] + "  Player O");
     }
 
     public static void main(String[] args) {
         launch();
     }
-
 }

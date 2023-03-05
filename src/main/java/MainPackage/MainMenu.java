@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 
 public class MainMenu {
     
-    public Parent createMenu(Scene scene, BorderPane pane) {
+    public Parent createMenu(Scene scene, BorderPane pane, Button restartButton) {
         BorderPane menu = new BorderPane();
         Label title = new Label("Game Menu");
         VBox optionsLayout = new VBox();
@@ -26,8 +26,10 @@ public class MainMenu {
         title.setPadding(new Insets(100, 0, 0, 0));
 
         resume.setFont(new Font("Arial", 30));
+        restartButton.setFont(new Font("Arial", 30));
         quitGame.setFont(new Font("Arial", 30));
         resume.setPrefWidth(200);
+        restartButton.setPrefWidth(200);
         quitGame.setPrefWidth(200);
 
         resume.setOnAction(event -> {
@@ -38,9 +40,9 @@ public class MainMenu {
             Platform.exit();
         });
 
-        optionsLayout.getChildren().addAll(resume, quitGame);
+        optionsLayout.getChildren().addAll(resume, restartButton, quitGame);
         optionsLayout.setAlignment(Pos.CENTER);
-        optionsLayout.setPadding(new Insets(-400, 20, 20, 20));
+        optionsLayout.setPadding(new Insets(-300, 20, 20, 20));
         optionsLayout.setSpacing(20);
         menu.setCenter(optionsLayout);
 

@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 
 public class MainMenu {
     
-    public Parent createMenu(Scene scene, BorderPane pane, Button restartButton) {
+    public Parent createMenu(Scene scene, BorderPane pane, Button restartButton, Button scoreResetButton) {
         BorderPane menu = new BorderPane();
         Label title = new Label("Game Menu");
         VBox optionsLayout = new VBox();
@@ -25,12 +25,10 @@ public class MainMenu {
         title.setFont(new Font("Arial", 50));
         title.setPadding(new Insets(100, 0, 0, 0));
 
-        resume.setFont(new Font("Arial", 30));
-        restartButton.setFont(new Font("Arial", 30));
-        quitGame.setFont(new Font("Arial", 30));
-        resume.setPrefWidth(200);
-        restartButton.setPrefWidth(200);
-        quitGame.setPrefWidth(200);
+        styleButton(resume);
+        styleButton(restartButton);
+        styleButton(scoreResetButton);
+        styleButton(quitGame);
 
         resume.setOnAction(event -> {
             scene.setRoot(pane);
@@ -40,13 +38,18 @@ public class MainMenu {
             Platform.exit();
         });
 
-        optionsLayout.getChildren().addAll(resume, restartButton, quitGame);
+        optionsLayout.getChildren().addAll(resume, restartButton, scoreResetButton, quitGame);
         optionsLayout.setAlignment(Pos.CENTER);
-        optionsLayout.setPadding(new Insets(-300, 20, 20, 20));
+        optionsLayout.setPadding(new Insets(-270, 20, 20, 20));
         optionsLayout.setSpacing(20);
         menu.setCenter(optionsLayout);
 
         
         return menu;
+    }
+
+    private void styleButton(Button button) {
+        button.setFont(new Font("Arial", 30));
+        button.setPrefWidth(220);
     }
 }

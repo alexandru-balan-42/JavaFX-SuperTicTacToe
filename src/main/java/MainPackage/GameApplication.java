@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GameApplication extends Application {
@@ -64,7 +65,7 @@ public class GameApplication extends Application {
         BorderPane.setAlignment(this.scoreLabel, Pos.CENTER);
         Scene scene = new Scene(pane);
 
-        Parent mainMenuLayout = this.mainMenu.createMenu(scene, pane, restartButton(stage));
+        Parent mainMenuLayout = this.mainMenu.createMenu(scene, pane, restartButton(stage), scoreResetButton());
 
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -167,12 +168,8 @@ public class GameApplication extends Application {
             buttonsToCheck.add(this.buttons.get("" + row + " " + i));
         }
 
-        for (int i = 0; i <= end - start - 4; i++) {
-            List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-
-            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
-                return true;
-            }
+        if (checkButtonListForWinningPattern(buttonsToCheck, start, end)) {
+            return true;
         }
 
         return false;
@@ -203,12 +200,8 @@ public class GameApplication extends Application {
             buttonsToCheck.add(this.buttons.get("" + i + " " + column));
         }
 
-        for (int i = 0; i <= end - start - 4; i++) {
-            List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-
-            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
-                return true;
-            }
+        if (checkButtonListForWinningPattern(buttonsToCheck, start, end)) {
+            return true;
         }
 
         return false;
@@ -266,13 +259,9 @@ public class GameApplication extends Application {
             buttonsToCheck.add(this.buttons.get("" + (rowStart + i) + " " + (columnStart + i)));
         }
 
-        for (int i = 0; i <= rowEnd - rowStart - 4; i++) {
-            List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-            
-            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
-                return true;
-            }
-        }
+        if (checkButtonListForWinningPattern(buttonsToCheck, rowStart, rowEnd)) {
+            return true;
+        }       
         
         return false;
     }
@@ -329,21 +318,17 @@ public class GameApplication extends Application {
             buttonsToCheck.add(this.buttons.get("" + (rowStart + i) + " " + (columnStart - i)));
         }
 
-        for (int i = 0; i <= rowEnd - rowStart - 4; i++) {
-            List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
-            
-            if (checkButtonListForWinningPattern(buttonsToCheckSublist)) {
-                return true;
-            }
+        if (checkButtonListForWinningPattern(buttonsToCheck, rowStart, rowEnd)) {
+            return true;
         }
         
         return false;
     }
 
-    private boolean checkButtonListForWinningPattern(List<Button> buttonList) {
+    private boolean checkButtonSublistForWinningPattern(List<Button> buttonSublist) {
         int sum = 0;
 
-        for (Button button : buttonList) {
+        for (Button button : buttonSublist) {
             if (button.getText().equals("X")) {
                 sum++;
             } else if (button.getText().equals("O")) {
@@ -358,7 +343,19 @@ public class GameApplication extends Application {
         return false;
     }
 
-    public Button restartButton(Stage stage) {
+    private boolean checkButtonListForWinningPattern(List<Button> buttonsToCheck, int rowStart, int rowEnd) {
+        for (int i = 0; i <= rowEnd - rowStart - 4; i++) {
+            List<Button> buttonsToCheckSublist = buttonsToCheck.subList(i, i + 5);
+            
+            if (checkButtonSublistForWinningPattern(buttonsToCheckSublist)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Button restartButton(Stage stage) {
         Button restartButton = new Button("Restart");
         restartButton.setOnAction(event -> {
             start(stage);
@@ -368,6 +365,17 @@ public class GameApplication extends Application {
         });
 
         return restartButton;
+    }
+
+    private Button scoreResetButton() {
+        Button resetScoreButton = new Button("Reset Score");
+        resetScoreButton.setOnAction(event -> {
+            Arrays.fill(this.score, 0);
+            this.scoreLabel.setText("Player X  0:0  Player O");
+            System.out.println(true);
+        });
+
+        return resetScoreButton;
     }
 
     public void updateScore() {

@@ -127,6 +127,10 @@ public class GameApplication extends Application {
     private boolean checkAllButtons() {
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
+                if (this.buttons.get("" + i + " " + j).getText().equals(" ")) {
+                    continue;
+                }
+                
                 if (checkButtonInWinningPattern("" + i + " " + j)) {
                     return true;
                 }
@@ -143,11 +147,7 @@ public class GameApplication extends Application {
                 checkButtonInRTLDiagonalWinningPattern(rowColumn));
     }
 
-    private boolean checkButtonInHorizontalWinningPattern(String rowColumn) {
-        if (this.buttons.get(rowColumn).getText().equals(" ")) {
-            return false;
-        }
-        
+    private boolean checkButtonInHorizontalWinningPattern(String rowColumn) {       
         String[] rowAndColumn = rowColumn.split(" ");
         
         int row = Integer.valueOf(rowAndColumn[0]);
@@ -175,11 +175,7 @@ public class GameApplication extends Application {
         return false;
     }
 
-    private boolean checkButtonInVerticalWinningPattern(String rowColumn) {
-        if (this.buttons.get(rowColumn).getText().equals(" ")) {
-            return false;
-        }
-        
+    private boolean checkButtonInVerticalWinningPattern(String rowColumn) {        
         String[] rowAndColumn = rowColumn.split(" ");
         
         int row = Integer.valueOf(rowAndColumn[0]);
@@ -208,10 +204,6 @@ public class GameApplication extends Application {
     }
 
     private boolean checkButtonInLTRDiagonalWinningPattern(String rowColumn) {
-        if (this.buttons.get(rowColumn).getText().equals(" ")) {
-            return false;
-        }
-        
         String[] rowAndColumn = rowColumn.split(" ");
         
         int row = Integer.valueOf(rowAndColumn[0]);
@@ -267,10 +259,6 @@ public class GameApplication extends Application {
     }
 
     private boolean checkButtonInRTLDiagonalWinningPattern(String rowColumn) {
-        if (this.buttons.get(rowColumn).getText().equals(" ")) {
-            return false;
-        }
-        
         String[] rowAndColumn = rowColumn.split(" ");
         
         int row = Integer.valueOf(rowAndColumn[0]);
@@ -372,7 +360,6 @@ public class GameApplication extends Application {
         resetScoreButton.setOnAction(event -> {
             Arrays.fill(this.score, 0);
             this.scoreLabel.setText("Player X  0:0  Player O");
-            System.out.println(true);
         });
 
         return resetScoreButton;

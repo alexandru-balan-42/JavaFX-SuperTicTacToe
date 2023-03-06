@@ -42,7 +42,7 @@ public class GameApplication extends Application {
     public void start(Stage stage) {
         BorderPane pane = new BorderPane();
         GridPane gameGrid = new GridPane();
-        gameGrid.setPadding(new Insets(10));
+        gameGrid.setPadding(new Insets(10, 20, 10, 20));
 
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {  
@@ -78,7 +78,7 @@ public class GameApplication extends Application {
         });
 
         stage.setTitle("SuperTicTacToe");
-        Image image = new Image("file:E:/Super-TicTacToe/JavaFX-SuperTicTacToe/images/STTT.jpg");
+        Image image = new Image("file:E:/Super-TicTacToe/JavaFX-SuperTicTacToe/images/AppIcon.jpg");
         stage.getIcons().add(image);
         stage.setScene(scene);
         stage.show();
@@ -86,7 +86,7 @@ public class GameApplication extends Application {
 
     private Button createButton() {
         Button button = new Button(" ");
-        button.setFont(Font.font("Monospaced", 12));
+        button.setFont(Font.font("Monospaced", 14));
 
         button.setOnAction((event) -> {
             if (this.gameOver) {
@@ -325,6 +325,7 @@ public class GameApplication extends Application {
         }
 
         if (sum == 5 || sum == -5) {
+            styleWinningButtons(buttonSublist);
             return true;
         }
 
@@ -341,6 +342,12 @@ public class GameApplication extends Application {
         }
 
         return false;
+    }
+
+    private void styleWinningButtons(List<Button> buttonList) {
+        for (Button button : buttonList) {
+            button.setStyle("-fx-background-color: red;");
+        }
     }
 
     private Button restartButton(Stage stage) {
